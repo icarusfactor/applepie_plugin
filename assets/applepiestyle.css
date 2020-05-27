@@ -1,0 +1,52 @@
+/* This css file keeps in check the basic limitations and fonts of the apps. Line height is half to place date close below title.. */
+
+#rssapp {
+max-height: 600px;
+margin-bottom: 25px;
+}
+
+#rsshead {
+font-size: 17px;	
+font-weight: 600;
+width: 100%;
+line-height: 0.9;
+}
+
+/* Limit the height of the content div by scrolling it.  */
+#rsscontent {
+max-height: 430px;	
+overflow-y: auto;
+font-size: 15px;
+font-weight: 600;
+width: 100%;
+word-wrap: break-word;
+}
+
+
+
+/* This is experimental do not use it yet.*/
+/* This is a tool to be used in the header section for the title to scroll on one line like a stereo display. */
+/* The scroll width is hard coded to 385px but can be changed to personal settings. */
+.onelinecontainer {
+overflow: hidden;
+width: 385px;
+text-align: center;
+display: flex;
+}
+
+.onelinescroll {
+  text-decoration:none;
+  text-align: center;
+  white-space: nowrap;
+  display: inline-flex;
+  line-height: 2;
+  animation: backAndForth 5s linear infinite;
+}
+@keyframes backAndForth {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(0); }
+  45% { transform: translateX(calc(-100% + 385 )); }
+  55% { transform: translateX(calc(-100% + 385 )); }
+  90% { transform: translateX(0); }
+  100% { transform: translateX(0); }
+}
