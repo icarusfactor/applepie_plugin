@@ -8,7 +8,7 @@
  Plugin Name: AppLePie Plugin
  Plugin URI: http://userspace.org
  Description: Parent plugin for custom RSS feeds that use Simplepie and a custom css display box.
- Version: 0.9.7
+ Version: 0.9.8
  Author: Daniel Yount aka Icarus[factor]
  Author URI: http://userspace.org
  License: GPLv2 or later
@@ -172,6 +172,9 @@ if(!class_exists('AppLePiePlugin')) {
     }
     $ApplepiePlugin = new AppLePiePlugin();
     $ApplepiePlugin->register();
+
+    // RAW Seed class  
+    require_once plugin_dir_path(__FILE__). 'inc/class.rseed.php';
     // activation
     register_activation_hook(__FILE__, array($ApplepiePlugin, 'activate'));
     // deactivation
