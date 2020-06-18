@@ -8,7 +8,7 @@
  Plugin Name: AppLePie Plugin
  Plugin URI: http://userspace.org
  Description: Parent plugin for custom RSS feeds that use Simplepie and a custom css display box.
- Version: 0.9.8
+ Version: 0.9.12
  Author: Daniel Yount aka Icarus[factor]
  Author URI: http://userspace.org
  License: GPLv2 or later
@@ -90,13 +90,13 @@ if(!class_exists('AppLePiePlugin')) {
             $atts =[];
             // Create a new instance of the SimplePie object
             $feed = new SimplePie();
+
             // This needs to be overrode with child Applepie plugin SimplePie
             $feed->set_feed_url($rss_feed_url);
             // Trigger force-feed
-            $feed->force_feed(true);
-            $feed->enable_cache(true);
-            $feed->set_cache_location(plugin_dir_path(__FILE__). 
-                                                      'cache');
+            $feed->force_feed(false);
+            $feed->enable_cache(false);
+            $feed->set_cache_location(plugin_dir_path(__FILE__).'cache');
             $feed->set_cache_duration(10800);
             //3 hours  3600 seconds = 1 hour
             $success = $feed->init();
@@ -116,42 +116,47 @@ if(!class_exists('AppLePiePlugin')) {
                             $daterss,
                             $contentrss);
             }
-            if($success)
-
-                : foreach($feed->get_items()as $item)
-                : $i ++;
-            if($i >= $max_items) {
+         if($success) {
+               foreach($feed->get_items()as $item)  {
+             $i ++;
+             if($i >= $max_items) {
                 break;
             }
             if(!empty($item->get_title())) {
-                if($item->get_permalink())
-                    $permrss[$i] = $item->get_permalink();
+                
+                if($item->get_permalink()) {
+                $permrss[$i] = $item->get_permalink();
                 $titlerss[$i] = $item->get_title();
                 $daterss[$i] = $item->get_date('j M Y, g:i a');
+                
                 if($rss_media == "APSUMMARY") {
                     $contentrss[$i] = $item->get_description();
                 }
+                
                 if($rss_media == "APVIDEO") {
                     $contentrss[$i] = $wp_embed->shortcode($atts, $item->get_permalink());
                 }
+                
                 if($rss_media == "APTEXT") {
                     $contentrss[$i] = $item->get_content();
                 }
-            }
-            endforeach;
-            endif;
-            return array($permrss,
+               }
+            
+            }//endforeach;
+          }//endif;
+          
+          //$filez =  var_dump($permrss)." ".var_dump($titlerss)." ".var_dump($daterss)." ".var_dump($contentrss); 
+          //file_put_contents( plugin_dir_path(__FILE__).'cache/testout.txt', $filez);
+          return array($permrss,
                         $titlerss,
                         $daterss,
                         $contentrss);
+            }
         }
         
         //Get Header  
         function feed_generate_header() {
-            //For use with Curator Theme 
-            //Need to make look based loosely style and more on css hooks
-            //so we can leave style for actual theme.  
-            $Content = "    <div id=\"widget-section\" style=\"padding-left: 5px;padding-right: 5px;border-radius: 5px;border: 6px solid lightblue;background-color: #add8e6;border-top: 12px solid lightblue;\" >";
+            $Content = "    <div id=\"widget-section\" >";
             $Content .= "   <div id=\"rssapp\">";
             $Content .= "   <div id=\"rsshead\" >";
             return $Content;
